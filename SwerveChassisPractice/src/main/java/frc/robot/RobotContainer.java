@@ -25,8 +25,8 @@ public class RobotContainer {
 
   }
 
-//  Add later on
+//  Add later on (Go into Robot.java and also uncomment the getAutonomousCommand method line 31)
   // public Command getAutonomousCommand() {
-   
+  
   // }
 }
