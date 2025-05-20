@@ -12,6 +12,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 public class RobotContainer {
   //Subsystems
   private final Pigeon2 s_pigeon2 = new Pigeon2(0,"rio");
+  
 
 
 

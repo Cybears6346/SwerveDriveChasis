@@ -1,5 +1,3 @@
-package frc.robot;
-
 // Visual Representation of Swerve Chasis 
 
 //  Front
@@ -7,31 +5,104 @@ package frc.robot;
 //  Module 3, Module 4
 //  Back
 
-public final class Constants {
-  public static class OperatorConstants {
+package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+
+
+public final class Constants {
+
+  public static final class ModuleConstants {
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kDriveMotorGearRatio = 1 / 5.8462;
+    public static final double kTurningMotorGearRatio = 1 / 18.0;
+    public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
+    public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
+    public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+    public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
+    public static final double kPTurning = 0.5;
+  }
+
+  public static final class DriveConstants {
+
+    public static final double kTrackWidth = Units.inchesToMeters(21);
+    // Distance between right and left wheels
+    public static final double kWheelBase = Units.inchesToMeters(25.5);
+    // Distance between front and back wheels
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+
+    //Drive Motors
+    public static final int kFrontLeftDriveMotorPort = 1;
+    public static final int kBackLeftDriveMotorPort = 5;
+    public static final int kFrontRightDriveMotorPort = 3;
+    public static final int kBackRightDriveMotorPort = 7;
+    
+    //Turn Motors
+    public static final int kFrontLeftTurningMotorPort = 2;
+    public static final int kBackLeftTurningMotorPort = 6;
+    public static final int kFrontRightTurningMotorPort = 4;
+    public static final int kBackRightTurningMotorPort = 8;
+
+    public static final boolean kFrontLeftTurningEncoderReversed = true;
+    public static final boolean kBackLeftTurningEncoderReversed = true;
+    public static final boolean kFrontRightTurningEncoderReversed = true;
+    public static final boolean kBackRightTurningEncoderReversed = true;
+
+    public static final boolean kFrontLeftDriveEncoderReversed = true;
+    public static final boolean kBackLeftDriveEncoderReversed = true;
+    public static final boolean kFrontRightDriveEncoderReversed = false;
+    public static final boolean kBackRightDriveEncoderReversed = false;
+
+    public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
+    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
+    public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
+    public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.254;
+    public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -1.252;
+    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -1.816;
+    public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -4.811;
+
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
+    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
+            kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+  }
+  public static final class AutoConstants {
+    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+    public static final double kMaxAngularSpeedRadiansPerSecond = //
+            DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+    public static final double kPXController = 1.5;
+    public static final double kPYController = 1.5;
+    public static final double kPThetaController = 3;
+
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+            new TrapezoidProfile.Constraints(
+                    kMaxAngularSpeedRadiansPerSecond,
+                    kMaxAngularAccelerationRadiansPerSecondSquared);
+  }
+
+  public static class OperatorConstants {
     //Controller Constants
     public static final int kOperatorControllerPort = 1;
     public static final int kDriverControllerPort = 0;
+  }
 
-    //Drive Constants 
-    public static final int driveMotor1ID = 1;
-    public static final int turnMotor1ID = 2;
-
-    public static final int driveMotor2ID = 3;
-    public static final int turnMotor2ID = 4;
-
-    public static final int driveMotor3ID = 5;
-    public static final int turnMotor3ID = 6;
-
-    public static final int driveMotor4ID = 7; 
-    public static final int turnMotor4ID = 8;
-
-    //Mechanical Constants
-    public static final int pigeonID = 0;
-  
-    //Gear Ratio/ Misc Constants
-
+  public static class MechanicalConstants {
+    public static final int pigeonID = 0; 
   }
 
 }
